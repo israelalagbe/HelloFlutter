@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:hello/property/property-admin-login.dart';
 import 'package:hello/property/property-item.dart';
 import 'package:hello/property/property.dart';
-
 
 class PropertyList extends StatefulWidget {
   @override
@@ -41,16 +41,21 @@ class _PropertyListState extends State<PropertyList> {
         ),
         actions: <Widget>[
           PopupMenuButton(
-            onSelected: (value){
-              print("jdjjd");
-              _showDialog();
-
+            onSelected: (value) {
+              if (value == 'login') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          PropertyAdminLogin()),
+                );
+              }
             },
-            itemBuilder: (BuildContext context){
+            itemBuilder: (BuildContext context) {
               return [
                 PopupMenuItem(
                   child: Text("Admin Area"),
-                  value: 1,
+                  value: 'login',
                 )
               ];
             },
@@ -81,6 +86,7 @@ class _PropertyListState extends State<PropertyList> {
       ),
     );
   }
+
   void _showDialog() {
     // flutter defined function
     showDialog(

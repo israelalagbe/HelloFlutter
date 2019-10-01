@@ -21,8 +21,11 @@ class PropertyItem extends StatelessWidget {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(
-                builder: (context) => PropertyDetails(property: this.property)),
+            PageRouteBuilder(
+              transitionDuration: Duration(milliseconds: 500),
+              pageBuilder: (_, __, ___) =>
+                  PropertyDetails(property: this.property),
+            ),
           );
         },
         child: Container(
