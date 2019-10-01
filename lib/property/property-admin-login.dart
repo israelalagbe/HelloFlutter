@@ -1,5 +1,27 @@
 import 'package:flutter/material.dart';
 
+void alert(BuildContext context, {String title, String content}) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      // return object of type Dialog
+      return AlertDialog(
+        title: new Text(title),
+        content: new Text(content),
+        actions: <Widget>[
+          // usually buttons at the bottom of the dialog
+          new FlatButton(
+            child: new Text("Close"),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
 class PropertyAdminLogin extends StatefulWidget {
   @override
   _PropertyAdminLoginState createState() => _PropertyAdminLoginState();
@@ -8,10 +30,15 @@ class PropertyAdminLogin extends StatefulWidget {
 class _PropertyAdminLoginState extends State<PropertyAdminLogin> {
   final usernameCtl = TextEditingController();
   final passwordCtl = TextEditingController();
-  _login() {
-    print(usernameCtl.value.text);
-    print(passwordCtl.value.text);
+  _login(BuildContext context) {
+    if (usernameCtl.value.text == "admin" &&
+        passwordCtl.value.text == 'password') {
+    } else {
+      alert(context,
+          title: "Error", content: "Username or Password incorrect!");
+    }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +89,6 @@ class _PropertyAdminLoginState extends State<PropertyAdminLogin> {
                             labelText: "Username",
                           ),
                           controller: usernameCtl,
-
                         ),
                         TextFormField(
                           decoration: InputDecoration(
@@ -83,7 +109,7 @@ class _PropertyAdminLoginState extends State<PropertyAdminLogin> {
                               "Login",
                               style: TextStyle(color: Colors.white),
                             ),
-                            onPressed: _login,
+                            onPressed: () => _login(context),
                           ),
                         )
                       ],
