@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hello/property/property-details.dart';
 import 'package:hello/property/property.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' as intl;
 
-final formatCurrency = new NumberFormat.simpleCurrency();
+final formatCurrency = new intl.NumberFormat.currency(symbol: "\u20A6");
 
 class PropertyItem extends StatelessWidget {
   final Property property;
@@ -67,7 +67,7 @@ class PropertyItem extends StatelessWidget {
                       height: 8,
                     ),
                     Text(
-                      "\u20A6${formatCurrency.format(property.price)}",
+                      "${formatCurrency.format(property.price)}",
                       textDirection: TextDirection.ltr,
                       style: TextStyle(
                         fontSize: 18,
