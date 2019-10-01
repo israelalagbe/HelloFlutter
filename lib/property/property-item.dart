@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hello/property/property-details.dart';
 import 'package:hello/property/property.dart';
+import 'package:intl/intl.dart';
+
+final formatCurrency = new NumberFormat.simpleCurrency();
 
 class PropertyItem extends StatelessWidget {
   final Property property;
@@ -11,6 +14,7 @@ class PropertyItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Runes input = new Runes(' \u{1f605} ');
     return Card(
       child: InkWell(
         splashColor: Colors.redAccent.withAlpha(70),
@@ -18,9 +22,7 @@ class PropertyItem extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => PropertyDetails(
-                      property: this.property
-                    )),
+                builder: (context) => PropertyDetails(property: this.property)),
           );
         },
         child: Container(
@@ -39,7 +41,7 @@ class PropertyItem extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(2.0)),
                     image: DecorationImage(
                       image: AssetImage(
-                        "assets/images/office.jpg",
+                        property.image,
                       ),
                       fit: BoxFit.cover,
                     ),
@@ -54,20 +56,23 @@ class PropertyItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      "Land at Lekki",
+                      property.name,
+                      textDirection: TextDirection.ltr,
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black.withAlpha(150)),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                      "\u20A6${formatCurrency.format(property.price)}",
                       textDirection: TextDirection.ltr,
                       style: TextStyle(
                         fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black.withAlpha(150)
+                        color: Colors.black.withAlpha(100),
                       ),
-                    ),
-                    SizedBox(height: 8,),
-                    Text(
-                      "\$240,000",
-                      textDirection: TextDirection.ltr,
-                      style: TextStyle(
-                           color: Colors.black.withAlpha(100),),
                     ),
                     // Text(
                     //   "Category: Property",

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:hello/property/property.dart';
 
 class PropertyDetails extends StatelessWidget {
-  final dynamic property;
-  final int hero;
-  const PropertyDetails({Key key, this.property, this.hero}) : super(key: key);
+  final Property property;
+  const PropertyDetails({Key key, this.property}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 0.0,
         title: Text(
-          property,
+          property.name,
           textDirection: TextDirection.ltr,
         ),
       ),
@@ -22,10 +22,10 @@ class PropertyDetails extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Hero(
-                tag: this.hero,
+                tag: this.property.id,
                 child: Container(
                   child: Image.asset(
-                    "assets/images/office.jpg",
+                    this.property.image,
                     width: double.infinity,
                   ),
                 ),
@@ -36,28 +36,35 @@ class PropertyDetails extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      "Land at Lekki",
-                      textDirection: TextDirection.ltr,
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      "Price: \$24",
+                      this.property.name,
                       textDirection: TextDirection.ltr,
                       style: TextStyle(
-                          fontStyle: FontStyle.italic, color: Colors.black87,fontSize: 18),
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black.withAlpha(150)),
+                    ),
+                    SizedBox(
+                      height: 8,
                     ),
                     Text(
-                      "Category: Property",
+                      "\u20A6${property.price}",
                       textDirection: TextDirection.ltr,
                       style: TextStyle(
-                          fontStyle: FontStyle.italic, color: Colors.black38),
+                          fontStyle: FontStyle.italic,
+                          color: Colors.black.withAlpha(100),
+                          fontSize: 18),
                     ),
+                    // Text(
+                    //   "Category: Property",
+                    //   textDirection: TextDirection.ltr,
+                    //   style: TextStyle(
+                    //       fontStyle: FontStyle.italic, color: Colors.black38),
+                    // ),
                     Divider(),
                     Text(
-                      "",
+                      this.property.description,
                       textDirection: TextDirection.ltr,
-                      style: TextStyle( color: Colors.black87),
+                      style: TextStyle(color: Colors.black87),
                     ),
                   ],
                 ),
