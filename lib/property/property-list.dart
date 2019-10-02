@@ -45,9 +45,7 @@ class _PropertyListState extends State<PropertyList> {
               if (value == 'login') {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          PropertyAdminLogin()),
+                  MaterialPageRoute(builder: (context) => PropertyAdminLogin()),
                 );
               }
             },
@@ -62,27 +60,32 @@ class _PropertyListState extends State<PropertyList> {
           )
         ],
       ),
-      body: Center(
-        child: loading
-            ? CircularProgressIndicator()
-            : ListView(
-                children: List.generate(40000, (index) {
-                  int min = 100000;
-                  int max = 1000000;
-                  int selection = min + (Random().nextInt(max - min));
-                  var property = new Property(
-                    id: index,
-                    price: selection,
-                    name: "Plot $index, Lekki Lagos",
-                    description:
-                        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                    image: "assets/images/office.jpg",
-                  );
-                  return PropertyItem(
-                    property: property,
-                  );
-                }),
-              ),
+      body: RefreshIndicator(
+        onRefresh: () {
+          return Future.delayed(Duration(seconds: 2));
+        },
+        child: Center(
+          child: loading
+              ? CircularProgressIndicator()
+              : ListView(
+                  children: List.generate(40000, (index) {
+                    int min = 100000;
+                    int max = 1000000;
+                    int selection = min + (Random().nextInt(max - min));
+                    var property = new Property(
+                      id: index,
+                      price: selection,
+                      name: "Plot $index, Lekki Lagos",
+                      description:
+                          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                      image: "assets/images/office.jpg",
+                    );
+                    return PropertyItem(
+                      property: property,
+                    );
+                  }),
+                ),
+        ),
       ),
     );
   }
