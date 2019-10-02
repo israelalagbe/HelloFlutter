@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hello/property/add-property.dart';
 
 void alert(BuildContext context, {String title, String content}) {
   showDialog(
@@ -33,6 +34,17 @@ class _PropertyAdminLoginState extends State<PropertyAdminLogin> {
   _login(BuildContext context) {
     if (usernameCtl.value.text == "admin" &&
         passwordCtl.value.text == 'password') {
+
+    
+          Navigator.push(
+            context,
+            PageRouteBuilder(
+              transitionDuration: Duration(milliseconds: 500),
+              pageBuilder: (_, __, ___) =>
+                  AddProperty(),
+            ),
+          );
+        
     } else {
       alert(context,
           title: "Error", content: "Username or Password incorrect!");
