@@ -34,9 +34,9 @@ class _PropertyListState extends State<PropertyList> {
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 0.0, //To minimize the padding between title and leading
-        leading: Icon(Icons.business),
+        leading: Icon(Icons.landscape),
         title: Text(
-          "Property Management",
+          "Land Management",
           textDirection: TextDirection.ltr,
         ),
         actions: <Widget>[
