@@ -13,11 +13,10 @@ class Property {
         price = json['price'],
         image = json['image'];
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
+  Map<String, String> toJson() => {
         'name': name,
         'description': description,
-        'price': price,
+        'price': "$price",
         'image': image,
       };
 }

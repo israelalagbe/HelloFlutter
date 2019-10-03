@@ -23,6 +23,37 @@ void alert(BuildContext context, {String title, String content}) {
   );
 }
 
+void confirm(BuildContext context,
+    {String title, String content, Function callback}) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      // return object of type Dialog
+      return AlertDialog(
+        title: new Text(title),
+        content: new Text(content),
+        actions: <Widget>[
+          // usually buttons at the bottom of the dialog
+          new FlatButton(
+            child: new Text("No"),
+            onPressed: () {
+              callback(false);
+              Navigator.of(context).pop();
+            },
+          ),
+          new FlatButton(
+            child: new Text("Yes"),
+            onPressed: () {
+              callback(true);
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
 class PropertyAdminLogin extends StatefulWidget {
   @override
   _PropertyAdminLoginState createState() => _PropertyAdminLoginState();
@@ -34,17 +65,13 @@ class _PropertyAdminLoginState extends State<PropertyAdminLogin> {
   _login(BuildContext context) {
     if (usernameCtl.value.text == "admin" &&
         passwordCtl.value.text == 'password') {
-
-    
-          Navigator.push(
-            context,
-            PageRouteBuilder(
-              transitionDuration: Duration(milliseconds: 500),
-              pageBuilder: (_, __, ___) =>
-                  AddProperty(),
-            ),
-          );
-        
+      Navigator.push(
+        context,
+        PageRouteBuilder(
+          transitionDuration: Duration(milliseconds: 500),
+          pageBuilder: (_, __, ___) => AddProperty(),
+        ),
+      );
     } else {
       alert(context,
           title: "Error", content: "Username or Password incorrect!");

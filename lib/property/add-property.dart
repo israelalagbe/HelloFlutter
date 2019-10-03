@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hello/property/property-admin-login.dart';
 import 'package:hello/property/property-service.dart';
+import 'package:hello/property/property.dart';
 
 class MySingleScroll extends StatelessWidget {
   final Widget child;
@@ -32,6 +34,11 @@ class AddProperty extends StatefulWidget {
 }
 
 class _AddPropertyState extends State<AddProperty> {
+  File _file;
+  final titleCtl = TextEditingController();
+  final priceCtl = TextEditingController();
+  final descriptionCtl = TextEditingController();
+  bool loading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,20 +66,26 @@ class _AddPropertyState extends State<AddProperty> {
                       height: 200,
                       width: 300,
                       color: Colors.grey.withAlpha(70),
-                      child: Center(
-                        child: Text(
-                          "Tap to Upload Image",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20),
-                        ),
-                      ),
+                      child: _file != null
+                          ? Image.file(
+                              _file,
+                              height: 200,
+                              width: 300,
+                            )
+                          : Center(
+                              child: Text(
+                                "Tap to Upload Image",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 20),
+                              ),
+                            ),
                     ),
                     onTap: () async {
                       File file =
                           await FilePicker.getFile(type: FileType.IMAGE);
-
-                      var propertyService = new PropertyService();
-                      propertyService.uploadFile(file);
+                      setState(() {
+                        _file = file;
+                      });
                     },
                   ),
                   SizedBox(
@@ -84,7 +97,7 @@ class _AddPropertyState extends State<AddProperty> {
                       labelText: "Land Title",
                       border: OutlineInputBorder(),
                     ),
-                    //controller: usernameCtl,
+                    controller: titleCtl,
                   ),
                   SizedBox(
                     height: 20,
@@ -99,7 +112,7 @@ class _AddPropertyState extends State<AddProperty> {
                     inputFormatters: <TextInputFormatter>[
                       WhitelistingTextInputFormatter.digitsOnly
                     ],
-                    //controller: usernameCtl,
+                    controller: priceCtl,
                   ),
                   SizedBox(
                     height: 20,
@@ -111,7 +124,7 @@ class _AddPropertyState extends State<AddProperty> {
                           "Full Description of the Land. e.g Address, Seller, e.t.c",
                     ),
                     maxLines: 10,
-                    //controller: usernameCtl,
+                    controller: descriptionCtl,
                   ),
                   SizedBox(
                     height: 20,
@@ -120,11 +133,62 @@ class _AddPropertyState extends State<AddProperty> {
                     width: 300,
                     child: RaisedButton(
                       color: Colors.red,
-                      child: Text(
-                        "Save",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: () {},
+                      child: loading
+                          ? CircularProgressIndicator()
+                          : Text(
+                              "Save",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                      onPressed: () async {
+                        try {
+                          if (titleCtl.text.isEmpty ||
+                              descriptionCtl.text.isEmpty ||
+                              priceCtl.text.isEmpty ||
+                              _file == null) {
+                            alert(
+                              context,
+                              title: "Error",
+                              content: "Please fill all inputs!",
+                            );
+                            return;
+                          }
+                          setState(() {
+                            loading = true;
+                          });
+                          var propertyService = new PropertyService();
+                          var url = await propertyService.uploadFile(_file);
+                          Property property = new Property(
+                            name: titleCtl.value.text,
+                            description: descriptionCtl.value.text,
+                            price: int.parse(priceCtl.value.text),
+                            image: url,
+                          );
+
+                          await propertyService.savePost(property);
+                          alert(
+                            context,
+                            title: "Success",
+                            content: "Land saved successfully!",
+                          );
+                          setState(() {
+                            _file = null;
+                          });
+                          titleCtl.text = "";
+                          priceCtl.text = "";
+                          descriptionCtl.text = "";
+                        } catch (e) {
+                          print(e);
+                          alert(
+                            context,
+                            title: "Error",
+                            content: "Error occured while saving Land info!",
+                          );
+                        } finally {
+                          setState(() {
+                            loading = false;
+                          });
+                        }
+                      },
                     ),
                   )
                 ],

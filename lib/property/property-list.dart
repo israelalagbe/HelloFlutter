@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:hello/property/property-admin-login.dart';
 import 'package:hello/property/property-item.dart';
+import 'package:hello/property/property-service.dart';
 import 'package:hello/property/property.dart';
 
 class PropertyList extends StatefulWidget {
@@ -23,6 +24,8 @@ class _PropertyListState extends State<PropertyList> {
         loading = false;
       });
     });
+    // var propertyService = new PropertyService();
+    // propertyService.getPosts();
   }
 
   Future loadItems() async {
