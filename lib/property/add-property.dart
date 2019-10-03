@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hello/property/property-service.dart';
 
 class MySingleScroll extends StatelessWidget {
   final Widget child;
@@ -69,7 +70,9 @@ class _AddPropertyState extends State<AddProperty> {
                     onTap: () async {
                       File file =
                           await FilePicker.getFile(type: FileType.IMAGE);
-                      print(file.uri);
+
+                      var propertyService = new PropertyService();
+                      propertyService.uploadFile(file);
                     },
                   ),
                   SizedBox(
