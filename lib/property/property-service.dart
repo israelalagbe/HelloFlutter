@@ -34,9 +34,7 @@ class PropertyService {
     }
     var data = jsonDecode(response.body);
     var properties = data.map((item) => Property.fromJson(item)).toList();
-    return properties;
-    // print('Response status: ${response.statusCode}');
-    // print('Response body: ${response.body}');
+    return List<Property>.from(properties);
   }
   /* 
   
