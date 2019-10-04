@@ -58,9 +58,11 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                         Hero(
                           tag: this.widget.property.id,
                           child: Container(
-                            child: Image.asset(
+                            child: Image.network(
                               this.widget.property.image,
                               width: double.infinity,
+                              height: 300,
+                              fit: BoxFit.fitWidth,
                             ),
                           ),
                         ),

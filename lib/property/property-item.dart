@@ -43,7 +43,7 @@ class PropertyItem extends StatelessWidget {
                     color: Colors.grey,
                     borderRadius: BorderRadius.all(Radius.circular(2.0)),
                     image: DecorationImage(
-                      image: AssetImage(
+                      image: NetworkImage(
                         property.image,
                       ),
                       fit: BoxFit.cover,

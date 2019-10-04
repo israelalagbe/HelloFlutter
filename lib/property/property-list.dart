@@ -15,6 +15,7 @@ class PropertyList extends StatefulWidget {
 class _PropertyListState extends State<PropertyList> {
   bool loading;
   var propertyService = new PropertyService();
+  Future<List<Property>> properties;
   @override
   void initState() {
     // TODO: implement initState
@@ -26,7 +27,7 @@ class _PropertyListState extends State<PropertyList> {
     //   });
     // });
 
-    // propertyService.getPosts();
+    properties = propertyService.getPosts();
   }
 
   Future loadItems() async {
@@ -66,12 +67,14 @@ class _PropertyListState extends State<PropertyList> {
       ),
       body: RefreshIndicator(
         onRefresh: () {
-          return Future.delayed(Duration(seconds: 2));
+          setState(() {
+           properties = propertyService.getPosts(); 
+          });
+          return properties;
         },
         child: Center(
           child: FutureBuilder<List<Property>>(
-            future: propertyService
-                .getPosts(), // a previously-obtained Future<String> or null
+            future: properties, // a previously-obtained Future<String> or null
             builder:
                 (BuildContext context, AsyncSnapshot<List<Property>> snapshot) {
               switch (snapshot.connectionState) {
